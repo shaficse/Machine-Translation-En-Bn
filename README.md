@@ -1,17 +1,27 @@
 # A3: Machine Translation
 
 ## Table of Contents
-- [Overview](#overview)
-- [Task 1. Get Language Pair](#Task-1.-Get-Language-Pair)
-  - [Foundational Research Papers](#11-foundational-research-papers)
-  - [Data Description](#12-data-description)
-  - [Technical Components](#13-technical-components)
-  - [Getting Started](#14-getting-started)
-- [Task 2: Model Comparison and Analysis](#task-2-model-comparison-and-analysis)
-- [Task 3: Text Generation - Web Application Development](#task-3-text-generation---web-application-development)
-- [Contributing & Support](#contributing--support)
-- [License](#license)
-- [Acknowledgments](#acknowledgments)
+1. [Overview](#overview)
+2. [Task 1. Get Language Pair](#task-1-get-language-pair)
+   - [1.1 Foundational Research Papers](#11-foundational-research-papers)
+   - [1.2 Data Description](#12-data-description)
+   - [1.3 Dataset Sampling and Preprocessing Overview](#13-dataset-sampling-and-preprocessing-overview)
+3. [Task 2. Experiment with Attention Mechanisms](#task-2-experiment-with-attention-mechanisms)
+   - [Training Process](#training-process)
+4. [Task 3. Evaluation and Verification](#task-3-evaluation-and-verification)
+   - [Dataset Statistics](#dataset-statistics)
+   - [Model Evaluation Criteria](#model-evaluation-criteria)
+   - [Model Comparison](#model-comparison)
+   - [Analysis and Discussion](#analysis-and-discussion)
+   - [Future Performance Improvement Strategies](#future-performance-improvement-strategies)
+5. [Task 4. Machine Translation - Web Application Development](#task-4-machine-translation---web-application-development)
+   - [Web Application Features](#web-application-features)
+   - [Getting Started with the Web Application](#getting-started-with-the-web-application)
+   - [Application Architecture](#application-architecture)
+6. [Contributing & Support](#contributing--support)
+7. [License](#license)
+8. [Acknowledgments](#acknowledgments)
+
 
 
 ## Overview
@@ -217,6 +227,7 @@ The epoch with the lowest validation loss is selected for evaluation on the test
 #### Model Comparison
 
 ##### Translation Accuracy 
+<img src="figures/train-val-loss.png">
 
 | Attention Type      | Avg. Train Loss | Avg. Train PPL | Avg. Valid Loss | Avg. Valid PPL | 
 |---------------------|-----------------|----------------|-----------------|----------------|
@@ -240,6 +251,11 @@ The epoch with the lowest validation loss is selected for evaluation on the test
 | Multiplicative_Attn | 450                 | 4.171     | 64.807   |
 | Additive_Attn       | 450                 | 4.156     | 63.846   |
 
+##### Attention Maps on a Pair of Test Sample Source & Target Text-
+
+<img src="figures/gen_atten.png">[General Attention Maps]
+<img src="figures/Multipli_attn.png">[Multiplicative Attention Maps]
+<img src="figures/addi_attn.png">[Additive Attention Maps]
 #### Analysis and Discussion
 
 - **Translation Accuracy**: Despite higher validation loss and PPL, Additive Attention demonstrates the best performance on the test set (also by considering the PPL and attention visualization), indicating its effectiveness in generalizing from the training data.
@@ -323,7 +339,7 @@ This deployment strategy not only showcases the Additive Attention Transformer M
 Contributions are welcome. For issues or questions, please open an issue in the repository.
 
 ## License
-This project is licensed under the MIT License.[LICENSE](LICENSE)
+This project is licensed under the MIT License.
 
 ## Acknowledgments
 This journey from dataset preparation to model training and deployment underscores the collaborative efforts and various resources that facilitated this exploration. Special thanks to:We extend our gratitude to:
