@@ -231,15 +231,15 @@ The epoch with the lowest validation loss is selected for evaluation on the test
 
 | Attention Type      | Avg. Train Loss | Avg. Train PPL | Avg. Valid Loss | Avg. Valid PPL | 
 |---------------------|-----------------|----------------|-----------------|----------------|
-| General_Attn        | 2.378           | 28.123         | 4.725           | 120.592        | 
+| General_Attn        | 2.378           | 28.123         | **4.725**           | **120.592**        | 
 | Multiplicative_Attn | 2.094           | 23.941         | 4.762           | 128.351        | 
-| Additive_Attn       | 1.927           | 21.132         | 4.874           | 145.778        | 
+| Additive_Attn       | **1.927**           | **21.132**         | 4.874           | 145.778        | 
 
 ##### Computational Efficiency
 
 | Attention Type       | Avg. Epoch Time (seconds) |
 |---------------------|---------------------------|
-| General_Attn        | 106.333                   |
+| General_Attn        | **106.333**                   |
 | Multiplicative_Attn | 109.633                   |
 | Additive_Attn       | 111.033                   |
 
@@ -249,7 +249,7 @@ The epoch with the lowest validation loss is selected for evaluation on the test
 |---------------------|---------------------|-----------|----------|
 | General_Attn        | 450                 | 4.215     | 67.662   |
 | Multiplicative_Attn | 450                 | 4.171     | 64.807   |
-| Additive_Attn       | 450                 | 4.156     | 63.846   |
+| Additive_Attn       | 450                 | **4.156**     | **63.846**   |
 
 ##### Attention Maps on a Pair of Test Sample Source & Target Text-
 
