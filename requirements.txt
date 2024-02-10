@@ -1,0 +1,9 @@
+aiohttp==3.9.0
+Flask==2.2.5
+gunicorn==21.2.0
+numpy==1.25.2
+torch==2.1.2
+torchtext==0.16.2
+requests==2.1.0
+datasets==1.16.1
+spacy==3.7.2

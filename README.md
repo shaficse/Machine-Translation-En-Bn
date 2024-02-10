@@ -2,7 +2,7 @@
 
 ## Table of Contents
 - [Overview](#overview)
-- [Task 1: Preparation and Training](#task-1-preparation-and-training)
+- [Task 1. Get Language Pair](#Task-1.-Get-Language-Pair)
   - [Foundational Research Papers](#11-foundational-research-papers)
   - [Data Description](#12-data-description)
   - [Technical Components](#13-technical-components)
@@ -17,7 +17,7 @@
 ## Overview
 In this project, we delved into the domain of neural machine translation, with a specific focus on translating between English and Bangla languages. Our objective was to explore various attention mechanisms within the Transformer architecture to enhance translation quality and efficiency.
 
-## Task 1: Preparation and Training
+## Task 1. Get Language Pair
 This task involves setting up the project, preparing the data, and training the LSTM language model.
 
 ### 1.1 Foundational Research Papers
@@ -56,9 +56,7 @@ For more information and to access the dataset, visit the [Hugging Face Datasets
 ---
 
 
-### 1.3 Technical Components
-
-#### Dataset Sampling and Preprocessing Overview
+### 1.3 Dataset Sampling and Preprocessing Overview
 
 - Initialize a random number generator with a fixed seed for reproducibility.
 
@@ -88,9 +86,9 @@ python -m spacy download en_core_web_sm
 
 
 
-#### Technical Components of the Transformer Model
+## Task 2. Experiment with Attention Mechanisms
 
-This section provides an overview of the key components within the Transformer model architecture, highlighting the Encoder, Decoder, and their supporting layers. The Transformer model is renowned for its effectiveness in handling sequence-to-sequence tasks, such as machine translation and text summarization.
+This section provides an overview of the key components within the Transformer model architecture, highlighting the Encoder, Decoder, and their supporting layers. The Transformer model is renowned for its effectiveness in handling sequence-to-sequence tasks, such as machine translation.
 
 **EncoderLayer Class**
 - A single layer in the Transformer model encoder, crucial for transforming input sequences into higher-level representations.
@@ -107,13 +105,17 @@ This section provides an overview of the key components within the Transformer m
   - **Equations for Attention Mechanisms**:
 
     1. **General Attention**: 
-    \(e_i = s^T h_i \in \mathbb{R}\) where \(d_1 = d_2\).
+    
+    $$e_i = \mathbf{s}^\text{T}\mathbf{h}_i \in \mathbb{R} \quad \text{where} \quad d_1 = d_2$$
+
 
     2. **Multiplicative Attention**:
-     \(e_i = s^T W h_i \in \mathbb{R}\) where \(W \in \mathbb{R}^{d_2 \times d_1}\).
+    $$e_i = \mathbf{s}^\text{T}\mathbf{W}\mathbf{h}_i \in \mathbb{R} \quad \text{where} \quad \mathbf{W} \in \mathbb{R}^{d_2 \times d_1}$$
+
 
     3. **Additive Attention**: 
-    \(e_i = v^T \tanh(W_1 h_i + W_2 s) \in \mathbb{R}\).
+   $$e_i = \mathbf{v}^\text{T} \tanh(\mathbf{W}_1\mathbf{h}_i + \mathbf{W}_2\mathbf{s}) \in \mathbb{R}$$
+
 
   - These equations delineate how each attention type calculates the energy score \(e_i\), which is pivotal for determining the focus areas of the model's input sequence.
 
@@ -136,32 +138,48 @@ The Transformer model architecture leverages these components to efficiently pro
 
 
 ### Training Process
-- **Dataset Loading**: Utilizes the OPUS-100 Corpus for training, validating, and testing the translation model.
-- **Hyperparameter Tuning**: Adjusts learning rate, batch size, and other parameters to optimize model performance.
-- **Model Evaluation**: Measures translation accuracy, computational efficiency, and other relevant metrics to compare attention mechanisms.
-- **Future Improvement Strategies**: Identifies areas for potential enhancement, such as data augmentation, hyperparameter tuning, and advanced model architectures.
+#### Transformer Model Configuration for Translation
 
-### Implementation Details
-- **Framework**: Implemented using PyTorch, a popular deep learning framework.
-- **Inspiration**: Draws inspiration from the Transformer model described in the seminal paper "Attention is All You Need" (Vaswani et al., 2017).
-- **Credit to Developers**: Acknowledges the contributions of the PyTorch development team and the authors of the Transformer paper for their foundational work in deep learning research.
+This section outlines the configuration specifics of a Transformer model tailored for sequence-to-sequence translation tasks. The model's architecture, comprising an encoder and decoder, is designed to adeptly handle the intricacies of language translation.
 
-#### Training
-- **Hyperparameter Adjustment**: Configures model hyperparameters such as the number of layers, embedding dimension, hidden dimension, dropout rate, and learning rate.
-- **Gradient Clipping**: Implements gradient clipping to prevent exploding gradients during backpropagation, maintaining model stability.
-- **Learning Rate Schedulers**: Uses a learning rate scheduler (`ReduceLROnPlateau`) to adjust the learning rate based on validation loss, aiding in model convergence and avoiding overfitting.
-- **Batch Processing**: Employs batch processing for efficient model training, reshaping the data into batches of a specified size.
-- **Loss Function**: Utilizes Cross-Entropy Loss, suitable for multi-class classification tasks, to compute the loss between predictions and targets.
-- **Optimizer**: Adopts the Adam optimizer for model training, updating model parameters based on computed gradients.
-- **Evaluation Metrics**: Employs perplexity as the primary metric for model evaluation, providing insight into the model's performance in predicting the next word in a sequence.
+**Model Parameters**
+- **Input/Output Dimensions**: Correlate with the source and target vocabulary sizes, setting the framework for the model's language processing capabilities.
+- **Hidden Dimension (`hid_dim`)**: Specifies the size of internal vectors, which is central to the model's ability to represent and process language data.
+- **Number of Layers**: The depth of both encoder and decoder, critical for the model's proficiency in parsing and generating sequences.
+- **Number of Attention Heads**: Enables the model to concurrently focus on various segments of the sequence, enhancing its contextual understanding.
+- **Feedforward Dimension**: Defines the size of the hidden layer within position-wise feedforward networks, impacting the transformation and processing of data.
+- **Dropout Rate**: A regularization technique that randomly omits a subset of units during training to prevent overfitting.
+
+**Hyperparameters**
+- **Batch Size**: Determines the number of sequences processed in unison, influencing both learning efficiency and computational demands.
+- **Learning Rate**: Regulates the optimization step size, essential for effective model training and convergence.
+- **Epochs**: The total number of times the training dataset is iteratively passed through the model, indicative of the training duration.
+- **Gradient Clipping**: Curbs the magnitude of gradients to avert the destabilizing effects of excessively large gradients, fostering stable training progress.
+
+**Initialization**
+- Utilizes Xavier uniform initialization for the model's weights to ensure a balanced start, promoting consistent and efficient training dynamics.
+
+#### Training Function for Sequence-to-Sequence Models
+
+The training function is pivotal in steering the model through the learning process, meticulously refining its parameters for improved prediction accuracy.
+
+**Key Steps**
+- **Forward Pass**: Conducts model inference on each source-target sequence pair, meticulously aligning inputs and outputs to facilitate effective learning.
+- **Loss Computation**: Calculates the divergence between the model's predictions and the actual target sequences using a designated loss criterion.
+- **Backward Pass and Optimization**: Computes gradients based on the loss and updates the model's parameters accordingly, with gradient clipping employed to temper gradient explosion risks.
+- **Epoch Loss Tracking**: Aggregates loss metrics across batches to monitor training progress and inform potential adjustments.
+
+**Purpose**
+- The training function is instrumental in optimizing the model, methodically reducing the loss to narrow the gap between predicted and actual sequences. This is achieved by iteratively adjusting the weights, guiding the model towards enhanced translation accuracy.
+
 
 
 ### 1.4 Getting Started
 
-To get started with the LSTM language model project, follow these steps to set up the environment, prepare the data, and initiate the training process:
+To get started with the Transformer Machine Translation project, follow these steps to set up the environment, prepare the data, and initiate the training process:
 
 1. **Environment Setup**:
-    - Ensure you have Python 3.6+ installed.
+    - Ensure Python 3.11.4+ installed.
     - Create a virtual environment to manage dependencies:
       ```bash
       python -m venv venv
@@ -175,73 +193,131 @@ To get started with the LSTM language model project, follow these steps to set u
       ```
 
 
-## Task 2: Model Comparison and Analysis
-
-### Model Performance Report
-
-This report provides an analysis of the LSTM language model's training performance over 50 epochs, focusing primarily on minimizing Train and Valid Perplexity, and offering an evaluation based on Test Perplexity.
-
-#### Results
-- **Total Training Time:** 48 minutes and 12 seconds(On T4 GPU Linux Machine with 16GB memory ).
-- **Optimal Epoch:** 30
-  - **Train Perplexity:** 45.028
-  - **Valid Perplexity:** 88.476
-  - **Test Perplexity:** 106.331
-
-#### Analysis
-The model demonstrated consistent improvement throughout the training epochs, with Epoch 30 yielding the most balanced performance. The Test Perplexity, while higher than the Validation Perplexity, remains within a reasonable range, suggesting good generalization of the model to unseen data. `However, the noticeable gap between Test and Validation Perplexity indicates potential areas for further model refinement.`
-
-#### Recommendations for Further Improvement
-1. **Early Stopping:** Implement an early stopping mechanism to halt training when the Validation Perplexity no longer shows significant improvement. This approach can prevent overfitting and reduce unnecessary computational overhead.
-2. **Hyperparameter Tuning:** Conduct thorough experimentation with various sets of hyperparameters to optimize the model's performance further. Consider exploring different learning rates, batch sizes, and LSTM configurations.
-3. **Extended Dataset:** Enrich the training dataset with more diverse or comprehensive data sources. This expansion can enhance the model's ability to learn and generalize across a wider array of textual contexts.
-4. **Advanced Architectures:** Investigate the integration of more sophisticated model architectures, such as Transformer-based models or attention mechanisms, to potentially capture the dataset's complexities more effectively and improve predictive performance.
-
-This analysis and the subsequent recommendations aim to guide further development and optimization of the LSTM language model, promoting advancements in performance and applicability.
+## Task 3. Evaluation and Verification
+We experimented Evaluation with different attention mechanisms, including General, Multiplicative, and Additive Attention.
 
 
-***If anyone wants to use our trained model, please download from here [https://drive.google.com/file/d/1DhDYEpJT4EpHx7bfmuezCMCGKV--kgmx/view?usp=sharing](https://drive.google.com/file/d/1DhDYEpJT4EpHx7bfmuezCMCGKV--kgmx/view?usp=sharing)
-& rest of the configuration files are inside the app/models directory***
+#### Dataset Statistics
+- **Splits**: Train (2100 samples), Validation (450 samples), Test (450 samples)
+- **Vocabulary Size**:
+  - English (EN): 1625 words
+  - Bangla (BN): 2023 words
 
-## Task 3: Text Generation - Web Application Development
+#### Model Evaluation Criteria
 
-This task focuses on deploying the trained LSTM language model as an interactive web application using Flask. The application allows users to input custom prompts and generate text based on those prompts, showcasing the model's text generation capabilities in a user-friendly format.
+The epoch with the lowest validation loss is selected for evaluation on the test dataset to ensure the best model performance is captured.
+
+| Model Type            | Epoch with Lowest Validation Loss | Lowest Validation Loss |
+|-----------------------|-----------------------------------|------------------------|
+| General_Attn          | 7                                 | 4.29465                |
+| Multiplicative_Attn   | 6                                 | 4.24075                |
+| Additive_Attn         | 6                                 | 4.29108                |
+
+
+#### Model Comparison
+
+##### Translation Accuracy 
+
+| Attention Type      | Avg. Train Loss | Avg. Train PPL | Avg. Valid Loss | Avg. Valid PPL | 
+|---------------------|-----------------|----------------|-----------------|----------------|
+| General_Attn        | 2.378           | 28.123         | 4.725           | 120.592        | 
+| Multiplicative_Attn | 2.094           | 23.941         | 4.762           | 128.351        | 
+| Additive_Attn       | 1.927           | 21.132         | 4.874           | 145.778        | 
+
+##### Computational Efficiency
+
+| Attention Type       | Avg. Epoch Time (seconds) |
+|---------------------|---------------------------|
+| General_Attn        | 106.333                   |
+| Multiplicative_Attn | 109.633                   |
+| Additive_Attn       | 111.033                   |
+
+##### Test Performance (Selected by Lowest Validation Loss)
+
+| Attention Type      | Number of Test Data | Test Loss | Test PPL |
+|---------------------|---------------------|-----------|----------|
+| General_Attn        | 450                 | 4.215     | 67.662   |
+| Multiplicative_Attn | 450                 | 4.171     | 64.807   |
+| Additive_Attn       | 450                 | 4.156     | 63.846   |
+
+#### Analysis and Discussion
+
+- **Translation Accuracy**: Despite higher validation loss and PPL, Additive Attention demonstrates the best performance on the test set (also by considering the PPL and attention visualization), indicating its effectiveness in generalizing from the training data.
+
+- **Computational Efficiency**: General Attention shows the best computational efficiency with the shortest average epoch time, making it suitable for environments with computational constraints.
+
+- **Overall Effectiveness**: While General Attention offers a good balance between efficiency and accuracy, Additive Attention emerges as potentially more effective for practical applications due to its superior generalization on unseen data.
+
+
+Therefore, **Additive Attention** mechanism has been identified as the most effective for generalizing from training to unseen data in English to Bangla translation tasks. Despite a slightly higher computational cost, its superior performance on the test set makes it the preferred choice for **our Web Application** where translation quality and accuracy are critical.
+
+
+### Future Performance Improvement Strategies
+
+Improving model performance requires a multifaceted approach, focusing on data preparation, model architecture adjustments, and training procedures. Here are some strategies that could help enhance the translation models' performance:
+
+##### 1. Data Augmentation
+- **Cleansing the Dataset**: Remove sentences other than source and target languages from the dataset to ensure cleaner training data.
+- **Paraphrasing**: Generate paraphrased versions of the training sentences to enrich the dataset without altering the underlying meaning.
+- **Back-Translation**: Increase the dataset size by translating target language sentences back into the source language and adding them as new training pairs.
+
+##### 2. Hyperparameter Tuning
+- **Learning Rate Adjustment**: Experiment with different learning rates or use learning rate schedulers to find the optimal rate for model training.
+- **Batch Size Variation**: Test different batch sizes to find a balance between model performance, training speed, and memory usage.
+
+##### 3. Advanced Model Architectures
+- **Layer Normalization**: Incorporate layer normalization within the attention mechanisms to stabilize the learning process.
+- **Transformer Modifications**: Explore variations of the Transformer architecture, such as the Transformer-XL, for improved handling of long-range dependencies.
+
+##### 4. Expanding the Training Data
+- **Entire Dataset Usage**: After cleansing, utilize the entire dataset for training by enhancing computational capabilities.
+- **Diverse Sources**: Incorporate text from a wider range of sources to improve the model's ability to handle different styles and domains.
+- **Cross-Lingual Transfer Learning**: Leverage transfer learning from models trained on high-resource language pairs to enhance performance on the target low-resource language pair.
+
+##### 7. Evaluation and Iteration
+- **Early Stopping**: Implement early stopping to prevent overfitting by halting the training when validation performance begins to deteriorate.
+- **Continuous Evaluation**: Regularly evaluate the model on a validation set and adjust strategies based on performance trends.
+
+
+
+
+## Task 4. Machine Translation - Web Application Development
+This task outlines the deployment of an **Additive Attention Transformer Model** as an interactive web application using Flask, aimed at demonstrating the model's English to Bangla translation capabilities in a user-friendly manner.
 
 ### Web Application Features
-- **Interactive Interface**: Users can input a prompt and adjust parameters such as **maximum sequence length** and **temperature** for text generation.
-- **Real-time Text Generation**: The model generates text in real-time, providing immediate feedback based on the user's input.
-- **Parameter Tuning**: Users can experiment with different temperatures to influence the creativity and coherence of the generated text.
+
+- The application enables **real-time text translation**, allowing users to input text in English and receive translations in Bangla instantly.
 
 ### Getting Started with the Web Application
+
 1. **Set Up the Flask Environment**:
    - Navigate to the Flask application directory.
-   - Ensure all dependencies are installed: `pip install -r requirements.txt`.
+   - Install dependencies with `pip install -r requirements.txt`.
 
 2. **Start the Flask Server**:
-   - Run the Flask server with  
-        ```sh
-        python app.py
-        ```
-   - The server typically starts at [http://127.0.0.1:5000](http://127.0.0.1:5000).
+   - Initiate the Flask server by running:
+     ```sh
+     python app.py
+     ```
+   - Access the server typically at `http://127.0.0.1:5000`.
+      <img src="figures/web-app-1.png">
 
-
-   <img src="figures/a2-app-1.png">
-
-   <img src="figures/a2-app-2.png">
-
-   ***For Live Demo from Huggingface Space [https://huggingface.co/spaces/shaficse/a2-text-gen](https://huggingface.co/spaces/shaficse/a2-text-gen)*** 
 3. **Interact with the Application**:
-   - Access the web application through the provided URL.
-   - Input your prompt and adjust generation parameters as desired.
-   - Click 'Generate' to view the model's text output.
+   - Visit the web application.
+   - Input your English text.
+   - Click 'Translate' to receive the Bangla translation.
 
 ### Application Architecture
-- **Flask Backend**: Handles requests, interacts with the LSTM model, and serves the generated text.
-- **Frontend Interface**: Provides an intuitive UI for users to interact with the model, built using HTML, CSS, and JavaScript.
-- **Model Integration**: Seamlessly integrates the trained LSTM model to perform text generation based on user input.
 
-This development phase brings the LSTM language model to a wider audience, allowing for interactive engagement and demonstration of the model's text generation prowess through a web-based platform.
+- **Flask Backend**: Manages request handling, model interaction, and serves the generated text.
+- **Frontend Interface**: Provides a user-friendly UI built with HTML, CSS, and JavaScript.
+- **Model Integration**: Ensures seamless integration of the trained Transformer Model for efficient translation based on user inputs.
 
+Furthermore, a live demo is available on Huggingface Space for users to experience the model's capabilities without the need for local setup:
+
+<!-- - [Live Demo on Huggingface Space](https://huggingface.co/spaces/shaficse/a2-text-gen) -->
+
+This deployment strategy not only showcases the Additive Attention Transformer Model's translation efficiency but also enhances its accessibility, facilitating broader interaction and appreciation of advancements in machine translation.
 
 ## Contributing & Support
 Contributions are welcome. For issues or questions, please open an issue in the repository.
@@ -250,9 +326,15 @@ Contributions are welcome. For issues or questions, please open an issue in the 
 This project is licensed under the MIT License.[LICENSE](LICENSE)
 
 ## Acknowledgments
+This journey from dataset preparation to model training and deployment underscores the collaborative efforts and various resources that facilitated this exploration. Special thanks to:We extend our gratitude to:
 
-- **Research Inspiration**: Sincere thanks to the authors of the foundational research paper, "Regularizing and Optimizing LSTM Language Models," which provided crucial insights and methodologies for this project.
+- **OPUS-100 Corpus** for the dataset that underpins our translation task.
+- **spaCy** for providing essential NLP tools for data preprocessing.
+- **"Attention Is All You Need" by Vaswani et al.**, the foundational paper that introduced the Transformer model, available at [arXiv:1706.03762](https://arxiv.org/abs/1706.03762).
+- **"A Survey on Attention Mechanisms in NLP Problems"**, which provides an extensive overview of attention mechanisms and their applications, available at [arXiv:1904.02874](https://arxiv.org/pdf/1904.02874.pdf).
+
+- **Flask framework** for enabling the deployment of interactive web applications.
+
 - **Resource Contributions**: Special appreciation to [Chaklam Silpasuwanchai](https://github.com/chaklam-silpasuwanchai) for his invaluable contributions. The codebase for this project drew inspiration and guidance from his [Python for Natural Language Processing](https://github.com/chaklam-silpasuwanchai/Python-for-Natural-Language-Processing) repository, serving as a vital resource.
-- **Dataset Providers**: Heartfelt gratitude to the curators and maintainers of the Harry Potter dataset, whose efforts in compiling and structuring the data have been instrumental for the training and evaluation of the LSTM language models in this project.
 
-These acknowledgments reflect the collaborative spirit and valuable contributions that have significantly enriched this project, and we extend our sincere gratitude to everyone involved.
+- The broader **machine learning and NLP communities** for their invaluable tools, libraries, and research that drive progress in artificial intelligence.
