@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-
+from torchtext.data.utils import get_tokenizer
 
 
 # Define special symbols and indices
@@ -8,7 +8,14 @@ UNK_IDX, PAD_IDX, SOS_IDX, EOS_IDX = 0, 1, 2, 3
 # Make sure the tokens are in order of their indices to properly insert them in vocab
 special_symbols = ['<unk>', '<pad>', '<sos>', '<eos>']
 
+SRC_LANGUAGE = 'en'  # Source language code (English).
+TRG_LANGUAGE = 'bn'  # Target language code (Bengali).
+token_transform = {}
+vocab_transform = {}
 
+# Configure tokenizers for the target and source languages using spaCy models.
+token_transform[TRG_LANGUAGE] = get_tokenizer('spacy', language='xx_ent_wiki_sm')  # Target language tokenizer
+token_transform[SRC_LANGUAGE] = get_tokenizer('spacy', language='en_core_web_sm')  # Source language tokenizer
 
 class AttentionLayer(nn.Module):
     def __init__(self, hid_dim, n_heads, dropout, device):
@@ -294,7 +301,7 @@ def translate_sentence(sentence, src_vocab_transform, trg_vocab_transform, model
     model.eval()
 
     # Tokenize and numericalize the input sentence
-    tokens = [token.lower() for token in sentence.split()]  # Tokenize sentence
+    tokens = [token.lower() for token in token_transform[SRC_LANGUAGE](sentence)]
     tokens = ['<sos>'] + tokens + ['<eos>']  # Add <sos> and <eos> tokens
     # print(tokens)
     src_indexes = [src_vocab_transform[token] for token in tokens]  # Convert to indices
