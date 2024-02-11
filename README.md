@@ -86,10 +86,8 @@ For more information and to access the dataset, visit the [Hugging Face Datasets
 To download spaCy models, use the following commands in our terminal:
 
 ```bash
-# For the multi-language entity recognition model
 python -m spacy download xx_ent_wiki_sm
 
-# For the small English model optimized for web content
 python -m spacy download en_core_web_sm
 ```
 
