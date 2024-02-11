@@ -5,6 +5,4 @@ numpy==1.25.2
 torch==2.1.2
 torchtext==0.16.2
 requests==2.25.1
-datasets==1.16.1
 spacy==3.7.2
-tabulate
