@@ -1,4 +1,4 @@
-# A3: Machine Translation
+# Machine Translation
 
 ## Table of Contents
 1. [Overview](#overview)
